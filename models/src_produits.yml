@@ -1,0 +1,6 @@
+version: 2
+
+sources:
+  - name: my_database  # Remplacez par le nom de votre base de données
+    tables:
+      - name: produits

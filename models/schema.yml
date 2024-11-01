@@ -1,0 +1,33 @@
+version: 2
+
+models:
+  - name: revenus_par_segment_et_type
+    description: "Modèle qui calcule le nombre total de trajets et le montant total des revenus par segment de client et type de véhicule."
+    columns:
+      - name: nom_segment
+        description: "Le segment de client (Entreprise, VIP, Particulier)."
+      - name: nom_type_vehicule
+        description: "Le type de véhicule (SUV, Berline)."
+      - name: nombre_trajets
+        description: "Le nombre de trajets réalisés pour ce type de véhicule et ce segment."
+      - name: total_revenus
+        description: "Le montant total des revenus générés par ce type de véhicule et ce segment."
+
+
+sources:
+  - name: vtc-paris-440209
+    description: "Les données brutes de l'entreprise VTC Paris."
+    schema: trajets_data
+    tables:
+      - name: clients
+        description: "Table des clients, contenant les informations démographiques et de segment."
+      - name: trajets_data
+        description: "Table des trajets avec les informations sur les trajets effectués, y compris les montants et distances."
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 24, period: hour}
+        loaded_at_field: created_at
+      - name: vehicules
+        description: "Table des véhicules avec les informations sur le modèle et le type de véhicule."
+
+        
